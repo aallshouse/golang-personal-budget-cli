@@ -53,6 +53,13 @@ var errDuplicateEntry = errors.New("Cannot add duplicate entry")
 
 // AddItem adds an item to the current budget
 func (b *Budget) AddItem(description string, price float32) error {
+	// Check if the item fits the budget
+	if b.CurrentCost()+price > b.Max {
+		return errDoesNotFitBudget
+	}
+
+	var newItem Item = Item{Description: description, Price: price}
+	b.Items = append(b.Items, newItem)
 
 	return nil
 }
